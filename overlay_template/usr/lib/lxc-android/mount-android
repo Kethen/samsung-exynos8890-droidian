@@ -1,0 +1,30 @@
+#!/bin/sh
+mkdir -p /dev/cpuset
+mount none /dev/cpuset -t cpuset -o nodev,noexec,nosuid
+
+BIND_MOUNT_PATH="/var/lib/lxc/android/rootfs" /usr/sbin/mount-android.sh
+
+# compat audio hal
+mount -o bind /android/system/lib64/hw/audio.hidl_compat.default.so /android/vendor/lib64/hw/audio.primary.default.so
+
+# bind mount efs and cpefs for samsung
+mount -o bind /android/efs /var/lib/lxc/android/rootfs/efs
+mount -o bind /android/cpefs /var/lib/lxc/android/rootfs/cpefs
+
+# bind mount cache
+mount -o bind /android/cache /var/lib/lxc/android/rootfs/cache
+
+# disable wifi hal
+mount -o bind /dev/null /android/vendor/etc/init/android.hardware.wifi@1.0-service.rc
+mount -o bind /dev/null /android/vendor/etc/init/android.hardware.wifi.supplicant-service.rc
+mount -o bind /dev/null /android/vendor/etc/init/hostapd.android.rc
+
+# disable bluetooth hal
+mount -o bind /dev/null /android/vendor/etc/init/android.hardware.bluetooth@1.0-service.rc
+
+# disable usb init
+mount -o bind /dev/null /android/vendor/etc/init/hw/init.samsungexynos8890.usb.rc
+
+if [ -d /android/metadata ]; then
+    mount -o bind /android/metadata /var/lib/lxc/android/rootfs/metadata
+fi

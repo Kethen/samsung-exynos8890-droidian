@@ -1,18 +1,5 @@
-reset () {
-	if [ -e ./build_dir ]
-	then
-		rm -r ./build_dir
-	fi
-	mkdir build_dir
-
-	if ! [ -e ./overlay ]
-	then
-		mkdir overlay
-	fi
-}
-
 fetch_rootfs () {
-	wget https://github.com/droidian-images/droidian/releases/download/droidian%2Fbookworm%2F24/droidian-OFFICIAL-phosh-phone-rootfs-api28-arm64-24_20220804.zip -O /tmp/droidian.zip
+	wget 'https://github.com/droidian-images/droidian/releases/download/droidian%2Fbookworm%2F24/droidian-OFFICIAL-phosh-phone-rootfs-api30-arm64-24_20220804.zip' -O /tmp/droidian.zip
 	unzip -p /tmp/droidian.zip data/rootfs.img > build_dir/rootfs.img
 	rm /tmp/droidian.zip
 }
@@ -45,7 +32,6 @@ apply_overlay () {
 
 set -xe
 
-reset
 fetch_rootfs
 fetch_halium
 update_halium

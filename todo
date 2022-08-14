@@ -1,5 +1,5 @@
 rebuild gst droid with color pixel changes (?)
 rebuild pulse audio with setParameter changes (ok)
 review init hacks
-rig boot.img building
+rig boot.img building (ok)
 figure out droidian style device overlay

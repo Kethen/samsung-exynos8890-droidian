@@ -4,7 +4,7 @@ then
 	rm -r overlay
 fi
 cp -r overlay_template overlay
-cp vendor_${1}.img overlay/
+cp vendor_${1}.img overlay/vendor.img
 
 if [ -e ramdisk-overlay ]
 then

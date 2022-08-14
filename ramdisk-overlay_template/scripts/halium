@@ -684,7 +684,7 @@ mountroot() {
 		mount_android_partitions "${rootmnt}/fstab*" ${rootmnt}/android ${rootmnt}/userdata
 
 		# mount prebaked vendor
-		mount -o loop,ro "${rootmnt}/vendor.img" ${rootmnt}/android/vendor
+		mount -t squashfs -o loop,ro "${rootmnt}/vendor.img" ${rootmnt}/android/vendor
 
 		# overlay vndservicemanager with a selinux disabled version
 		mount -o bind ${rootmnt}/usr/lib/droid-vendor-overlay/bin/vndservicemanager ${rootmnt}/android/vendor/bin/vndservicemanager
@@ -733,9 +733,6 @@ mountroot() {
 			fi
 		done
 
-		# /etc/ubuntu-touch-session.d/android.conf bindmount for /etc/init/update-machine-info.conf, which tries to use getprop before android is ready
-		mount -o bind ${rootmnt}/etc/ubuntu-touch-session.d/${MODEL}.conf ${rootmnt}/etc/ubuntu-touch-session.d/android.conf
-
 		# charger mode
 		if $IS_CHARGER_MODE
 		then
@@ -768,6 +765,9 @@ mountroot() {
 			mount -t sysfs sysfs ${rootmnt}/sys
 			tell_kmsg "mounting proc on /proc for charger mode"
 			mount -t proc proc ${rootmnt}/proc
+		else
+			# droidian mounts rootfs r/w if I understand correctly
+			mount -o remount,rw ${rootmnt}
 		fi
 	else
 		# Possibly a re-partitioned device

@@ -1,0 +1,12 @@
+[Unit]
+Description=setting lxc init pid onto galaxy s7 fingerprint sensor driver
+After=lxc@android.service
+ConditionPathExists=!/system-update
+
+[Service]
+Type=oneshot
+ExecStart=/usr/sbin/fingerprint_s7.sh
+
+[Install]
+WantedBy=graphical.target
+

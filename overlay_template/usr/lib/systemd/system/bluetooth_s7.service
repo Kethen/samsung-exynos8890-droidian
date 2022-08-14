@@ -1,0 +1,11 @@
+[Unit]
+Description=perform hci_attach for s7
+Before=bluetooth.service
+ConditionPathExists=!/system-update
+
+[Service]
+ExecStart=/usr/bin/bash -c 'while true; do /usr/bin/hciattach -f /vendor/firmware ttySAC1 bcm43xx; done'
+
+[Install]
+WantedBy=graphical.target
+

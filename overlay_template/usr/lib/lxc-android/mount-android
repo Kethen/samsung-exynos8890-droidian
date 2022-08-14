@@ -25,6 +25,12 @@ mount -o bind /dev/null /android/vendor/etc/init/android.hardware.bluetooth@1.0-
 # disable usb init
 mount -o bind /dev/null /android/vendor/etc/init/hw/init.samsungexynos8890.usb.rc
 
+# mount system and vendor overlay with the classic overlayfs notation
+mkdir -p /tmp/system_workdir
+mount -t overlay -o upperdir=/usr/lib/droid-system-overlay,lowerdir=/var/lib/lxc/android/rootfs/system,workdir=/tmp/system_workdir,ro overlay /var/lib/lxc/android/rootfs/system
+mkdir -p /tmp/vendor_workdir
+mount -t overlay -o upperdir=/usr/lib/droid-vendor-overlay,lowerdir=/var/lib/lxc/android/rootfs/vendor,workdir=/tmp/vendor_workdir,ro overlay /var/lib/lxc/android/rootfs/vendor
+
 if [ -d /android/metadata ]; then
     mount -o bind /android/metadata /var/lib/lxc/android/rootfs/metadata
 fi

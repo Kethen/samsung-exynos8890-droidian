@@ -1,0 +1,11 @@
+[Unit]
+Description=setting lxc init pid onto galaxy s7 fingerprint sensor driver
+Before=NetworkManager.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/sbin/efs_mac_s7.sh
+
+[Install]
+WantedBy=graphical.target
+

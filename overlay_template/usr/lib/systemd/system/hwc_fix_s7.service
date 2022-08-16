@@ -1,0 +1,13 @@
+[Unit]
+Description=setting lxc init pid onto galaxy s7 fingerprint sensor driver
+After=lxc@android.service
+Before=phosh.service
+ConditionPathExists=!/system-update
+
+[Service]
+ExecStartPre=/usr/bin/waitforservice init.svc.vendor.hwcomposer-* init.svc.vendor.qti.hardware.display.composer
+ExecStart=/usr/sbin/hwc_fix_s7.sh
+
+[Install]
+WantedBy=graphical.target
+
